@@ -1,0 +1,3 @@
+[submodule "portfolio-submodule"]
+	path = portfolio-submodule
+	url = git@github.com:Javokhdev/portfolio-submodule.git
