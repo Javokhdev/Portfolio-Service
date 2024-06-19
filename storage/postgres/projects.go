@@ -52,10 +52,35 @@ func (p *ProjectsStorage) GetAllProject(rest *pb.Project) (*pb.GetAllProjects, e
 			where deleted_at=0`
 	var arr []interface{}
 	count := 1
+
+	if len(rest.Id) > 0 {
+		query += fmt.Sprintf(" and id=$%d", count)
+		count++
+		arr = append(arr, rest.Id)
+	}
+
 	if len(rest.UserId) > 0 {
 		query += fmt.Sprintf(" and user_id=$%d", count)
 		count++
 		arr = append(arr, rest.UserId)
+	}
+
+	if len(rest.Title) > 0 {
+		query += fmt.Sprintf(" and title=$%d", count)
+		count++
+		arr = append(arr, rest.Title)
+	}
+
+	if len(rest.Description) > 0 {
+		query += fmt.Sprintf(" and description=$%d", count)
+		count++
+		arr = append(arr, rest.Description)
+	}
+
+	if len(rest.Url) > 0 {
+		query += fmt.Sprintf(" and url=$%d", count)
+		count++
+		arr = append(arr, rest.Url)
 	}
 
 	row, err := p.db.Query(query, arr...)
@@ -91,3 +116,5 @@ func (p *ProjectsStorage) DeleteProject(id *pb.ById) (*pb.Void, error) {
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)
 	return nil, err
 }
+
+

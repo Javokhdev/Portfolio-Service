@@ -52,16 +52,31 @@ func (p *SkillsStorage) GetAllSkill(rest *pb.Skill) (*pb.GetAllSkills, error) {
 			where deleted_at=0`
 	var arr []interface{}
 	count := 1
-	if len(rest.Name) > 0 {
-		query += fmt.Sprintf(" and name=$%d", count)
+
+	if len(rest.Id) > 0 {
+		query = fmt.Sprintf(" and id=$%d", count)
 		count++
-		arr = append(arr, rest.Name)
+		arr = append(arr, rest.Id)
 	}
+
 	if len(rest.UserId) > 0 {
 		query += fmt.Sprintf(" and user_id=$%d", count)
 		count++
 		arr = append(arr, rest.UserId)
 	}
+
+	if len(rest.Name) > 0 {
+		query += fmt.Sprintf(" and name=$%d", count)
+		count++
+		arr = append(arr, rest.Name)
+	}
+
+	if len(rest.Level) > 0 {
+		query += fmt.Sprintf(" and level=$%d", count)
+		count++
+		arr = append(arr, rest.Level)
+	}
+	
 	row, err := p.db.Query(query, arr...)
 	if err != nil {
 		return nil, err

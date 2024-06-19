@@ -52,16 +52,49 @@ func (p *ExperienceStorage) GetAllExperience(rest *pb.Experience) (*pb.GetAllExp
 			where deleted_at=0`
 	var arr []interface{}
 	count := 1
+
+	if len(rest.Id) > 0 {
+		query += fmt.Sprintf(" and id=$%d", count)
+		count++
+		arr = append(arr, rest.Id)
+	}
+	
 	if len(rest.UserId) > 0 {
 		query += fmt.Sprintf(" and user_id=$%d", count)
 		count++
 		arr = append(arr, rest.UserId)
 	}
 
+	if len(rest.Title) > 0 {
+		query += fmt.Sprintf(" and title=$%d", count)
+		count++
+		arr = append(arr, rest.Title)
+	}
+
 	if len(rest.Company) > 0 {
 		query += fmt.Sprintf(" and company=$%d", count)
 		count++
 		arr = append(arr, rest.Company)
+	}
+
+	if len(rest.Description) > 0 {
+		query += fmt.Sprintf(" and description=$%d", count)
+		count++
+		arr = append(arr, rest.Description)
+
+	}
+
+	if len(rest.StartDate) > 0 {
+		query += fmt.Sprintf(" and start_date=$%d", count)
+		count++
+		arr = append(arr, rest.StartDate)
+
+	}
+
+	if len(rest.EndDate) > 0 {
+		query += fmt.Sprintf(" and end_date=$%d", count)
+		count++
+		arr = append(arr, rest.EndDate)
 	}
 
 	row, err := p.db.Query(query, arr...)
