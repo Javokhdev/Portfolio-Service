@@ -31,7 +31,7 @@ func (p *EducationsStorage) CreateEducation(edu *pb.Education) (*pb.Void, error)
 func (p *EducationsStorage) GetByIdEducation(id *pb.ById) (*pb.Education, error) {
 	query := `
 			SELECT user_id, institution, degree, field_of_study, start_date, end_date from educations 
-			where id =$1 and delated_at=0 
+			where id =$1 and deleted_at=0 
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -49,7 +49,7 @@ func (p *EducationsStorage) GetAllEducation(rest *pb.Education) (*pb.GetAllEduca
 	edu := &pb.GetAllEducations{}
 	var query string
 	query = ` SELECT user_id, institution, degree, field_of_study, start_date, end_date from educations 
-			where delated_at=0`
+			where deleted_at=0`
 	var arr []interface{}
 	count := 1
 	if len(rest.UserId) > 0 {
@@ -83,15 +83,15 @@ func (p *EducationsStorage) UpdateEducation(Edu *pb.Education) (*pb.Void, error)
 	query := `
 		UPDATE educations
 		SET user_id = $1, institution = $2, degree = $3, field_of_study = $4, start_date = $5, end_date = $6
-		WHERE id = $5
+		WHERE id = $7
 	`
-	_, err := p.db.Exec(query, Edu.UserId, Edu.Institution, Edu.Degree, Edu.FieldOfStudy, Edu.StartDate, Edu.EndDate)
+	_, err := p.db.Exec(query, Edu.UserId, Edu.Institution, Edu.Degree, Edu.FieldOfStudy, Edu.StartDate, Edu.EndDate, Edu.Id)
 	return nil, err
 }
 
 func (p *EducationsStorage) DeleteEducation(id *pb.ById) (*pb.Void, error) {
 	query := `
-		update from educations set delated_at=$1
+		update educations set deleted_at=$1
 		where id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

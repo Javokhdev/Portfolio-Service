@@ -1,13 +1,3 @@
-CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW(),
-    deleted_at BIGINT DEFAULT 0
-) 
-
 CREATE TABLE IF NOT EXISTS skills (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL,
@@ -16,7 +6,7 @@ CREATE TABLE IF NOT EXISTS skills (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at BIGINT DEFAULT 0
-)
+);
 
 CREATE TABLE IF NOT EXISTS projects (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -27,7 +17,7 @@ CREATE TABLE IF NOT EXISTS projects (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at BIGINT DEFAULT 0
-)
+);
 
 CREATE TABLE IF NOT EXISTS experiences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -40,7 +30,7 @@ CREATE TABLE IF NOT EXISTS experiences (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at BIGINT DEFAULT 0
-)
+);
 
 CREATE TABLE IF NOT EXISTS educations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -53,4 +43,4 @@ CREATE TABLE IF NOT EXISTS educations (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at BIGINT DEFAULT 0
-)
+);

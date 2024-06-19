@@ -31,7 +31,7 @@ func (p *SkillsStorage) CreateSkill(skill *pb.Skill) (*pb.Void, error) {
 func (p *SkillsStorage) GetByIdSkill(id *pb.ById) (*pb.Skill, error) {
 	query := `
 			SELECT user_id, name, level from skills 
-			where id =$1 and delated_at=0 
+			where id =$1 and deleted_at=0 
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -49,7 +49,7 @@ func (p *SkillsStorage) GetAllSkill(rest *pb.Skill) (*pb.GetAllSkills, error) {
 	Skill := &pb.GetAllSkills{}
 	var query string
 	query = ` SELECT user_id, name, level from skills 
-			where delated_at=0`
+			where deleted_at=0`
 	var arr []interface{}
 	count := 1
 	if len(rest.Name) > 0 {
@@ -77,21 +77,21 @@ func (p *SkillsStorage) GetAllSkill(rest *pb.Skill) (*pb.GetAllSkills, error) {
 	return Skill, nil
 }
 
-func (p *SkillsStorage) UpdateSkill(Skill *pb.Skill) (*pb.Void, error) {
+func (p *SkillsStorage) UpdateSkill(skill *pb.Skill) (*pb.Void, error) {
 	query := `
 		UPDATE skills
 		SET user_id = $1, name = $2, level = $3
 		WHERE id = $4
 	`
-	_, err := p.db.Exec(query, Skill.UserId, Skill.Name, Skill.Level, Skill.Id)
+	_, err := p.db.Exec(query, skill.UserId, skill.Name, skill.Level, skill.Id)
 	return nil, err
 }
 
-func (p *SkillsStorage) DeleteSkill(id *pb.ById) (*pb.Void, error) {
+func (p *SkillsStorage) DeleteSkill(skill *pb.ById) (*pb.Void, error) {
 	query := `
-		update from skills set delated_at=$1
+		update skills set deleted_at=$1
 		where id = $2
 	`
-	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)
+	_, err := p.db.Exec(query, time.Now().Unix(), skill.Id)
 	return nil, err
 }

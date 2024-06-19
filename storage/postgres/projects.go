@@ -21,7 +21,7 @@ func NewProjectsStorage(db *sql.DB) *ProjectsStorage {
 func (p *ProjectsStorage) CreateProject(project *pb.Project) (*pb.Void, error) {
 	id := uuid.NewString()
 	query := `
-		INSERT INTO skills (id, user_id, title, description, url)
+		INSERT INTO projects (id, user_id, title, description, url)
 		VALUES ($1, $2, $3, $4, $5)
 	`
 	_, err := p.db.Exec(query, id, project.UserId, project.Title, project.Description, project.Url)
@@ -31,7 +31,7 @@ func (p *ProjectsStorage) CreateProject(project *pb.Project) (*pb.Void, error) {
 func (p *ProjectsStorage) GetByIdProject(id *pb.ById) (*pb.Project, error) {
 	query := `
 			SELECT user_id, title, description, url from projects 
-			where id =$1 and delated_at=0 
+			where id =$1 and deleted_at=0 
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -49,7 +49,7 @@ func (p *ProjectsStorage) GetAllProject(rest *pb.Project) (*pb.GetAllProjects, e
 	project := &pb.GetAllProjects{}
 	var query string
 	query = ` SELECT user_id, title, description, url from projects 
-			where delated_at=0`
+			where deleted_at=0`
 	var arr []interface{}
 	count := 1
 	if len(rest.UserId) > 0 {
@@ -85,7 +85,7 @@ func (p *ProjectsStorage) UpdateProject(Project *pb.Project) (*pb.Void, error) {
 
 func (p *ProjectsStorage) DeleteProject(id *pb.ById) (*pb.Void, error) {
 	query := `
-		update from projects set delated_at=$1
+		update projects set deleted_at=$1
 		where id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

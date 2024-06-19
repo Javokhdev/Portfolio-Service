@@ -44,6 +44,7 @@ func (c *SkillService) GetByIdSkill(ctx context.Context, id *pb.ById) (*pb.Skill
 }
 
 func (c *SkillService) UpdateSkill(ctx context.Context, Skill *pb.Skill) (*pb.Void, error) {
+	
 	pb, err := c.stg.Skill().UpdateSkill(Skill)
 	if err != nil {
 		log.Print(err)
