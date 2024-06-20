@@ -60,7 +60,6 @@ PostgresDatabase = web_portfolio
 
 ```
 go run server/server.go
-go run main.go
 ```
 
 ## Contributing
